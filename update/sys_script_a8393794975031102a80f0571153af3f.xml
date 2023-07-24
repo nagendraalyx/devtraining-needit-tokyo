@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update sys_domain="global" table="sys_script">
+    <sys_script action="INSERT_OR_UPDATE">
+        <abort_action>false</abort_action>
+        <access>package_private</access>
+        <action_delete>false</action_delete>
+        <action_insert>true</action_insert>
+        <action_query>false</action_query>
+        <action_update>true</action_update>
+        <active>false</active>
+        <add_message>false</add_message>
+        <advanced>true</advanced>
+        <change_fields>false</change_fields>
+        <client_callable>false</client_callable>
+        <collection>x_58872_needit_needit</collection>
+        <condition/>
+        <description/>
+        <execute_function>false</execute_function>
+        <filter_condition/>
+        <is_rest>false</is_rest>
+        <message/>
+        <name>NeedIt Debugging Practice</name>
+        <order>100</order>
+        <priority>100</priority>
+        <rest_method/>
+        <rest_method_text/>
+        <rest_service/>
+        <rest_service_text/>
+        <rest_variables/>
+        <role_conditions/>
+        <script><![CDATA[(function executeRule(current, previous /*null when async*/ ) {
+
+function onChange(control, oldValue, newValue, isLoading, isTemplate) {
+
+  // Modified the if to return if the newValue == oldValue to avoid
+  // unecessary trips to the server
+  if (isLoading || newValue === '' || newValue == oldValue) {
+    return;
+  }
+
+  // Instantiate the GetEmailAddress Script Include 
+  var getEmailAddr = new GlideAjax('GetEmailAddress');
+  // Specify the getEmail method
+  getEmailAddr.addParam('sysparm_name','getEmail');
+  // Pass the Requested for sys_id
+  getEmailAddr.addParam('sysparm_userID', g_form.getValue('u_requested_for'));
+  // Send the request to the server
+  getEmailAddr.getXML(populateEmailField);
+
+
+  // When the response is back from the server
+  function populateEmailField(response){
+    // Extract the email address from the response, clear any value from the email field, 
+    // set new value in the email field
+    var emailFromScriptInclude = response.responseXML.documentElement.getAttribute("answer");
+    g_form.clearValue('u_requested_for_email');
+    g_form.setValue('u_requested_for_email',emailFromScriptInclude);
+  }
+}
+
+})(current, previous);]]></script>
+        <sys_class_name>sys_script</sys_class_name>
+        <sys_created_by>admin</sys_created_by>
+        <sys_created_on>2023-07-24 07:20:34</sys_created_on>
+        <sys_domain>global</sys_domain>
+        <sys_domain_path>/</sys_domain_path>
+        <sys_id>a8393794975031102a80f0571153af3f</sys_id>
+        <sys_mod_count>6</sys_mod_count>
+        <sys_name>NeedIt Debugging Practice</sys_name>
+        <sys_overrides/>
+        <sys_package display_value="NeedIt" source="x_58872_needit">6ead8e780f603200cd674f8ce1050ed1</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="NeedIt">6ead8e780f603200cd674f8ce1050ed1</sys_scope>
+        <sys_update_name>sys_script_a8393794975031102a80f0571153af3f</sys_update_name>
+        <sys_updated_by>admin</sys_updated_by>
+        <sys_updated_on>2023-07-24 11:12:31</sys_updated_on>
+        <template/>
+        <when>before</when>
+    </sys_script>
+    <sys_translated_text action="delete_multiple" query="documentkey=a8393794975031102a80f0571153af3f"/>
+</record_update>
